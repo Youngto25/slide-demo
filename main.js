@@ -1,12 +1,28 @@
 let n;
 theMoment();
-setInterval(() => {
+let setTimer = setInterval(() => {
   makeLeave(getImage(n)).one("transitionend", e => {
     makeEnter($(e.currentTarget));
   });
   makeCurrent(getImage(n + 1));
   n += 1;
 }, 1000);
+
+document.addEventListener('visibilitychange',function (e){
+  console.log(document.hidden)
+  if(document.hidden){
+    window.clearInterval(setTimer)
+  }else{
+    setTimer = setInterval(() => {
+      makeLeave(getImage(n)).one("transitionend", e => {
+        makeEnter($(e.currentTarget));
+      });
+      makeCurrent(getImage(n + 1));
+      n += 1;
+    }, 1000);
+  }
+})
+
 /*
 setInterval(()=>{
   $(`.images > img:nth-child(${x(n)})`).removeClass('current').addClass('leave')
